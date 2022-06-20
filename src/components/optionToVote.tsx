@@ -2,12 +2,14 @@ import { Pokemon } from "types/types";
 import { Button } from "./button";
 
 export type OptionToVoteProps = {
-  pokemon: Pokemon;
-  onClick: () => void;
+  pokemon: Pokemon & {
+    id: number;
+  };
+  onClick: (id: number) => void;
 };
 
 export const OptionToVote: React.FC<OptionToVoteProps> = ({
-  pokemon: { name, sprites },
+  pokemon: { name, sprites, id },
   onClick,
 }) => {
   return (
@@ -24,7 +26,7 @@ export const OptionToVote: React.FC<OptionToVoteProps> = ({
 
       {name && <p className="text-center capitalize">{name}</p>}
 
-      <Button type="button" onClick={onClick}>
+      <Button type="button" onClick={() => onClick(id)}>
         Rounder
       </Button>
     </div>

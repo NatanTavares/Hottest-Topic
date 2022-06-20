@@ -12,7 +12,23 @@ const Home: NextPage = () => {
   const firstPokemon = trpc.useQuery(["get-pokemon-by-id", { id: first }]);
   const secondPokemon = trpc.useQuery(["get-pokemon-by-id", { id: second }]);
 
-  const handleVoteForRoundest = (selected: number) => {
+  const voteMutation = trpc.useMutation(["cast-vote"]);
+
+  const handleVoteForRoundest = async (selected: number) => {
+    if (selected === first) {
+      voteMutation.mutate({
+        votedAgainst: second,
+        votedFor: first,
+      });
+    }
+
+    if (selected === second) {
+      voteMutation.mutate({
+        votedAgainst: first,
+        votedFor: second,
+      });
+    }
+
     updateIds(getOptionsForVote());
   };
 
@@ -30,8 +46,11 @@ const Home: NextPage = () => {
         <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
           {firstPokemon.data && (
             <OptionToVote
-              pokemon={firstPokemon.data}
-              onClick={() => handleVoteForRoundest(first)}
+              pokemon={{
+                ...firstPokemon.data,
+                id: first,
+              }}
+              onClick={handleVoteForRoundest}
             />
           )}
 
@@ -39,8 +58,11 @@ const Home: NextPage = () => {
 
           {secondPokemon.data && (
             <OptionToVote
-              pokemon={secondPokemon.data}
-              onClick={() => handleVoteForRoundest(first)}
+              pokemon={{
+                ...secondPokemon.data,
+                id: second,
+              }}
+              onClick={handleVoteForRoundest}
             />
           )}
         </div>
