@@ -17,15 +17,15 @@ const Home: NextPage = () => {
   const handleVoteForRoundest = async (selected: number) => {
     if (selected === first) {
       voteMutation.mutate({
-        votedAgainst: second,
-        votedFor: first,
+        votedAgainstId: second,
+        votedForId: first,
       });
     }
 
     if (selected === second) {
       voteMutation.mutate({
-        votedAgainst: first,
-        votedFor: second,
+        votedAgainstId: first,
+        votedForId: second,
       });
     }
 

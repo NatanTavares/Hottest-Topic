@@ -21,8 +21,8 @@ export const OptionToVote: React.FC<OptionToVoteProps> = ({
             src={sprites.front_default}
             alt={name}
             className="w-full"
-            width={256}
-            height={256}
+            width={128}
+            height={128}
             layout="fixed"
             priority
           />
