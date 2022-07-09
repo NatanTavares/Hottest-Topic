@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Pokemon } from "types/types";
 import { Button } from "./button";
+import { NotFoundImage } from "./notFoundImage";
 
 export type OptionToVoteProps = {
   pokemon: Pokemon & {
@@ -27,13 +28,13 @@ export const OptionToVote: React.FC<OptionToVoteProps> = ({
             priority
           />
         ) : (
-          <div className="flex items-center w-full h-full p-3">
-            <p className="text-center text-gray-400 text-sm">here will be the &apos;not found&apos; image</p>
-          </div>
+          <NotFoundImage />
         )}
       </div>
 
-      <p className="text-center capitalize text-gray-300">{!!name ? name : 'This one'}</p>
+      <p className="text-center capitalize text-gray-300">
+        {!!name ? name : "This one"}
+      </p>
 
       <Button type="button" onClick={() => onClick(id)}>
         Rounder
