@@ -6,17 +6,18 @@ const doBackFill = async () => {
   const { results } = await api.listPokemons(0, 493);
 
   if (!results.length) return;
-  const formattedPokemons = results.map((pokemon, index) => {
-    const id: number = index + 1;
+  const formattedPokemons = results.map(({ name }, index) => {
+    const id = index + 1;
+    const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
     return {
       id,
-      name: pokemon.name,
-      spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+      name,
+      spriteUrl,
     };
   });
 
-  const creation = await prisma.pokemon.createMany({ data: formattedPokemons });
+  await prisma.pokemon.createMany({ data: formattedPokemons });
 };
 
 doBackFill();

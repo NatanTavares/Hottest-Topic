@@ -1,5 +1,4 @@
 import * as trpc from "@trpc/server";
-import { PokemonClient } from "pokenode-ts";
 import { prisma } from "services/prisma";
 import { z } from "zod";
 
@@ -11,10 +10,12 @@ export const appRouter = trpc
     }),
 
     async resolve({ input: { id } }) {
-      const api = new PokemonClient();
-      const pokemon = await api.getPokemonById(id);
+      const pokemon = await prisma.pokemon.findUnique({
+        where: { id },
+      });
 
-      return { name: pokemon.name, sprites: pokemon.sprites };
+      if (pokemon) return pokemon;
+      throw new Error("Pokemon not found");
     },
   })
   .mutation("cast-vote", {
