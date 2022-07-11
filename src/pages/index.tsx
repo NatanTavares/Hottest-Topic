@@ -1,6 +1,7 @@
 import { Loading } from "components/loading";
 import { OptionToVote } from "components/optionToVote";
 import type { NextPage } from "next";
+import Head from "next/head";
 import { memo, useState } from "react";
 import { getOptionsForVote } from "utils/getRandom";
 import { trpc } from "utils/trpc";
@@ -37,37 +38,43 @@ const Home: NextPage = () => {
   }
 
   return (
-    <main>
-      <div className="h-screen w-screen flex flex-col justify-center items-center">
-        <div className="text-2xl text-center mb-6">
-          Which subject is more relevant?
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+
+      <main>
+        <div className="h-screen w-screen flex flex-col justify-center items-center">
+          <div className="text-2xl text-center mb-6 first-letter:uppercase">
+            what theme interests you the most?
+          </div>
+
+          <div className="border rounded p-5 flex justify-between items-center max-w-2xl">
+            {firstPokemon.data && (
+              <OptionToVote
+                pokemon={{
+                  ...firstPokemon.data,
+                  id: first,
+                }}
+                onClick={handleVoteForRoundest}
+              />
+            )}
+
+            <span className="text-2xl p-8">Vs</span>
+
+            {secondPokemon.data && (
+              <OptionToVote
+                pokemon={{
+                  ...secondPokemon.data,
+                  id: second,
+                }}
+                onClick={handleVoteForRoundest}
+              />
+            )}
+          </div>
         </div>
-
-        <div className="border rounded p-5 flex justify-between items-center max-w-2xl">
-          {firstPokemon.data && (
-            <OptionToVote
-              pokemon={{
-                ...firstPokemon.data,
-                id: first,
-              }}
-              onClick={handleVoteForRoundest}
-            />
-          )}
-
-          <span className="text-2xl p-8">Vs</span>
-
-          {secondPokemon.data && (
-            <OptionToVote
-              pokemon={{
-                ...secondPokemon.data,
-                id: second,
-              }}
-              onClick={handleVoteForRoundest}
-            />
-          )}
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
