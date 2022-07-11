@@ -1,5 +1,6 @@
 import { ResultList } from "components/resultItem";
 import type { GetServerSideProps, NextPage } from "next";
+import Head from "next/head";
 import { memo } from "react";
 import { prisma } from "services/prisma";
 
@@ -12,13 +13,21 @@ const ResultsPage: NextPage<ResultsPageProps> = ({ pokemons }) => {
     return <p>not found any result!</p>;
   }
 
+  // TODO: virtualizar a listagem dos pokemons
+
   return (
-    <main>
-      <div className="h-screen w-screen flex flex-col items-center p-5">
-        <h1 className="mb-4 text-xl">Results page</h1>
-        <ResultList pokemons={pokemons} />
-      </div>
-    </main>
+    <>
+      <Head>
+        <title>Results</title>
+      </Head>
+
+      <main>
+        <div className="h-screen w-screen flex flex-col items-center p-5">
+          <h1 className="mb-4 text-xl">Results page</h1>
+          <ResultList pokemons={pokemons} />
+        </div>
+      </main>
+    </>
   );
 };
 
